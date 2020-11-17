@@ -42,6 +42,8 @@ public class MainActivity extends Activity {
 
         ArrayList<String> arr_division1 = new ArrayList<String>();
 
+
+
         JSONArray arr = null;
         try {
             arr = JsonPaser.getData();
