@@ -8,44 +8,105 @@
     tools:context=".MainActivity"
     android:padding="20dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="최저가 검색"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <Spinner
-            android:id="@+id/spinner_division1"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:prompt="@string/division1_prompt"
-            />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
 
-        <Spinner
-            android:id="@+id/spinner_division2"
-            android:layout_width="130dp"
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:prompt="@string/division2_prompt" />
+            android:text="지키미"
+            android:textSize="25dp"
+            android:layout_centerInParent="true"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/star" />
+        <Button
+            android:id="@+id/favoriteButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:text="품명으로 찾기"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <Button
+                android:id="@+id/searchbar_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00ff0000"/>
+            <ImageView
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/searchbar_img"/>
+        </RelativeLayout>
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/editSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="품명을 입력하세요."/>
 
-    <ListView
-        android:id="@+id/listView"
+
+    <LinearLayout
+        android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:text="분류로 찾기"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/spinner_division1"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_weight="2"/>
+
+            <Spinner
+                android:id="@+id/spinner_division2"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_weight="2"/>
+            <Button
+                android:id="@+id/seachButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="검색"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="#999999"
-        android:dividerHeight="1dp">
-    </ListView>
+        android:layout_height="100dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:text="지도에서 찾기"/>
+
+    </LinearLayout>
 
 
 

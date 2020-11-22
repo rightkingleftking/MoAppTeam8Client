@@ -1,5 +1,6 @@
 package com.example.teamproject;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.teamproject.R;
-
 import java.util.List;
-
+/**
+ * Created by Administrator on 2017-08-07.
+ */
 
 public class SearchAdapter extends BaseAdapter {
 
