@@ -1,7 +1,10 @@
 # MoApp8Client
 
 ## 역할 분배
-1. Network background thread
+1. Network background thread  
+    -> retrofit2 사용  
+    -> return json의 p1, p2, .. => p로 통일해서 수정 예정  
+    -> return json의 class => 이름 변경 필요
 2. Navigationbar
 3. main
 4. googlemap
