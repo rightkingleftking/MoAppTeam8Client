@@ -4,28 +4,30 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 //test
 
 public class MainActivity extends Activity {
+
+    private TextView textViewResult;
+    private JsonParserRetrofit jsonParserRetrofit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,15 @@ public class MainActivity extends Activity {
         // 분류를 이용한 검색
         Spinner spinner_division1 = (Spinner) findViewById(R.id.spinner_division1);
         ArrayList<String> arr_division1 = new ArrayList<String>();
+
+        textViewResult = findViewById(R.id.text_view_result);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://13.58.103.212:8080/api/datas/gets/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
+        getDatas();
 
         /* thread issue
         JSONArray arr = null;
@@ -142,6 +153,32 @@ public class MainActivity extends Activity {
 
     }
 
+    private void getDatas() {
+        Call<List<Get>> call = jsonParserRetrofit.getDatas("곡류", "*", "tradition", "last", "p1");
+        call.enqueue(new Callback<List<Get>>() {
+            @Override
+            public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
+                if (!response.isSuccessful()) {
+                    textViewResult.setText("Code: " + response.code());
+                    return;
+                }
+                List<Get> gets = response.body();
+                for (Get get : gets) {
+                    String content = "";
+                    content += "Class: " + get.getgClass() + "\n";
+                    content += "Id: " + get.getId() + "\n";
+                    content += "Unit: " + get.getUnit() + "\n";
+                    content += "P: " + get.getP() + "\n\n";
 
+                    textViewResult.append(content);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Get>> call, Throwable t) {
+                textViewResult.setText((t.getMessage()));
+            }
+        });
+    }
 
 }
