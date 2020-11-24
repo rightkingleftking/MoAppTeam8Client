@@ -3,7 +3,7 @@
 ## 역할 분배
 수정사항(return).  
     -> return p1, p2, .. => p  
-    -> class => div  
+    -> class => category  
 1. 체크박스 뷰(시장선택, 데이터처리, 저장/불러오기 버튼)  
 2. config 적용  
 3. 쿼리문(div, id 세로줄)  
