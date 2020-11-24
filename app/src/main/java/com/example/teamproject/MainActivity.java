@@ -58,26 +58,6 @@ public class MainActivity extends Activity {
         jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
         getDatas();
 
-        /* thread issue
-        JSONArray arr = null;
-        try {
-            arr = JsonPaser.getData();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        JSONObject obj = (JSONObject) arr.get(0);
-        String div1 = (String)obj.get("class");
-        String name = (String)obj.get("id");
-        String unit = (String)obj.get("unit");
-        String ppap = (String)obj.get("p1");
-
-        System.out.println("분류 : " + div1);
-        System.out.println("품명 : " + name);
-        System.out.println("규격 : " + unit);
-        System.out.println("p : " + ppap);
-         */
-
         arr_division1.add("대분류 선택");
         arr_division1.add("곡류");
         arr_division1.add("육류");
@@ -110,6 +90,8 @@ public class MainActivity extends Activity {
                 return view;
             }
         };
+
+
 
         adapter_division1.setDropDownViewResource(R.layout.spin_div1);
         spinner_division1.setAdapter(adapter_division1);
@@ -165,7 +147,7 @@ public class MainActivity extends Activity {
                 List<Get> gets = response.body();
                 for (Get get : gets) {
                     String content = "";
-                    content += "Class: " + get.getgClass() + "\n";
+                    content += "Category: " + get.getCategory() + "\n";
                     content += "Id: " + get.getId() + "\n";
                     content += "Unit: " + get.getUnit() + "\n";
                     content += "P: " + get.getP() + "\n\n";

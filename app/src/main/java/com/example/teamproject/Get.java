@@ -3,7 +3,7 @@ package com.example.teamproject;
 import com.google.gson.annotations.SerializedName;
 
 public class Get {
-    private String gClass;
+    private String category;
     private String id;
     private String unit;
     private int p;
@@ -12,8 +12,8 @@ public class Get {
     @SerializedName("body")
     private String text;
 
-    public String getgClass() {
-        return gClass;
+    public String getCategory() {
+        return category;
     }
 
     public String getId() {

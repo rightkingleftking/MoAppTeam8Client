@@ -9,15 +9,12 @@ import retrofit2.http.Url;
 
 public interface JsonParserRetrofit {
 
-    @GET("{class}/{id}/{tag}/{week}/{place}/")   //relativeUrl
-//    @GET("api/datas/gets/{class}/{id}/{tag}/{week}/{place}");
-    //Call<List<Get>> getDatas();
+    @GET("{category}/{id}/{tag}/{week}/{place}/")   //relativeUrl
     Call<List<Get>> getDatas(
-            @Path("class") String userClass,
+            @Path("category") String userClass,
             @Path("id") String userId,
             @Path("tag") String userTag,
             @Path("week") String userWeek,
             @Path("place") String userPlace
     );
-
 }
