@@ -6,14 +6,14 @@
     -> class => category  
 1. 체크박스 뷰(시장선택, 데이터처리, 저장/불러오기 버튼)  
 2. config 적용  
-3. 쿼리문(div, id 세로줄)  
+3. 쿼리문(category, id 세로줄)  
 4. config.json -> .env  
 5. googleMap  
 6. Navigationbar  
 7. UI 수정  
 8. 메인 뷰 데이터처리  
 9. 버전 및 엑셀파일 날짜  
-10. (div, id 세로줄) api call  
+10. (category, id 세로줄) api call  
 
 공통1. 시스템구성  
 공통2. ppt개인파트  
