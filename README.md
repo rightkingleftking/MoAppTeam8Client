@@ -2,7 +2,7 @@
 
 ## 역할 분배
 수정사항(return).  
-    -> return p1, p2, .. => p  
+    -> return p1, p2, .. => p // call 할때는 동일합니다. 서버에서 json return 전에 key값 수정합니다.  
     -> class => category  
 1. 체크박스 뷰(시장선택, 데이터처리, 저장/불러오기 버튼)  
 2. config 적용  
