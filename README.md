@@ -1,23 +1,27 @@
 # MoApp8Client
 
 ## 역할 분배
-1. Network background thread  
-    -> retrofit2 사용  
-    -> return json의 p1, p2, .. => p로 통일해서 수정 예정  
-    -> return json의 class => 이름 변경 필요
-2. Navigationbar
-3. main
-4. googlemap
-5. setting
+수정사항(return).  
+    -> return p1, p2, .. => p  
+    -> class => div  
+1. 체크박스 뷰(시장선택, 데이터처리, 저장/불러오기 버튼)  
+2. config 적용  
+3. 쿼리문(div, id 세로줄)  
+4. config.json -> .env  
+5. googleMap  
+6. Navigationbar  
+7. UI 수정  
+8. 메인 뷰 데이터처리  
+9. 버전 및 엑셀파일 날짜  
+10. (div, id 세로줄) api call  
 
-6. data
-7. searchView
-8. resultView
+공통1. 시스템구성  
+공통2. ppt개인파트  
 
-오강산: 2,3
-김규래: 4
-오명성: 5
-황보준수: 1
+오명성: 1, 2, 3  
+김규래: 4, 5  
+오강산: 6, 7  
+황보준수: 8, 9, 10  
 
 ## 진행상황
 구현됨
