@@ -105,6 +105,26 @@
                 android:text="검색" />
         </LinearLayout>
     </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="시장 선택" />
+        <Button
+            android:id="@+id/M_select_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="시장 선택창 가기"
+            android:onClick="onM_select_btn_clicked"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
