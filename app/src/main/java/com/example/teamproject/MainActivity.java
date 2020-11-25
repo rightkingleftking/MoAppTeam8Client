@@ -162,5 +162,9 @@ public class MainActivity extends Activity {
             }
         });
     }
-
+    
+    public void onM_select_btn_clicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), MarketSelectActivity.class);
+        startActivity(intent);
+    }
 }
