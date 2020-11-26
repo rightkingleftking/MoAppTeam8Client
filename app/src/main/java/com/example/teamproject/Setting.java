@@ -1,4 +1,4 @@
-package com.example.settings;
+package com.example.teamproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
