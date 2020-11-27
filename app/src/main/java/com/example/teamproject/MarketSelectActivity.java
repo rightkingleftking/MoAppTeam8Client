@@ -65,7 +65,7 @@ public class MarketSelectActivity extends AppCompatActivity {
     public void onload_btn_clicked(View view) {
         SharedPreferences sharedPreferences = getSharedPreferences("test", MODE_PRIVATE);
         String checked;
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {   // to iterator
             checked = sharedPreferences.getString("t" + i, "");
             if (checked.equals("1")) {
                 t_ary[i].setChecked(true);
