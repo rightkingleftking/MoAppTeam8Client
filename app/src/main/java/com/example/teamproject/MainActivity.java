@@ -55,6 +55,8 @@ public class MainActivity extends Activity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+
+
         jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
         getDatas();
 
@@ -90,8 +92,6 @@ public class MainActivity extends Activity {
                 return view;
             }
         };
-
-
 
         adapter_division1.setDropDownViewResource(R.layout.spin_div1);
         spinner_division1.setAdapter(adapter_division1);
