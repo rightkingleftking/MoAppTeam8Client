@@ -136,6 +136,14 @@
             android:layout_height="30dp"
             android:gravity="center_vertical"
             android:text="지도에서 찾기" />
+        <Button
+            android:id="@+id/M_map_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="지도 열기"
+            android:onClick="onM_map_btn_clicked"/>
+
 
     </LinearLayout>
 

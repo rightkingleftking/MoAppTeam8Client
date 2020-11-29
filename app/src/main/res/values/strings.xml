@@ -2,4 +2,5 @@
     <string name="app_name">TeamProject</string>
     <string name="division1_prompt">대분류</string>
     <string name="division2_prompt">품목</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -167,4 +167,9 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(getApplicationContext(), MarketSelectActivity.class);
         startActivity(intent);
     }
+
+    public void onM_map_btn_clicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+        startActivity(intent);
+    }
 }
