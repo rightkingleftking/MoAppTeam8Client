@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
-    private List<String> list;          // 데이터를 넣은 리스트변수
+    private ArrayList<String> list;          // 데이터를 넣은 리스트변수
     private ListView listView;          // 검색을 보여줄 리스트변수
     private EditText editSearch;        // 검색어를 입력할 Input 창
     private SearchAdapter adapter;      // 리스트뷰에 연결할 아답터
@@ -28,7 +28,7 @@ public class SearchActivity extends AppCompatActivity {
 
         editSearch = (EditText) findViewById(R.id.editSearch);
         listView = (ListView) findViewById(R.id.listView);
-        list = new ArrayList<String>(); // 리스트를 생성한다.
+        list = (ArrayList<String>) getIntent().getSerializableExtra("list"); // 리스트를 생성한다.
         settingList();         // 검색에 사용할 데이터을 미리 저장한다.
         arraylist = new ArrayList<String>();         // 리스트의 모든 데이터를 arraylist에 복사한다.// list 복사본을 만든다.
         arraylist.addAll(list);
@@ -82,10 +82,5 @@ public class SearchActivity extends AppCompatActivity {
 
     // 검색에 사용될 데이터를 리스트에 추가한다.
     private void settingList(){
-        list.add("쌀");
-        list.add("소고기");
-        list.add("빵");
-        list.add("등등");
-
     }
 }

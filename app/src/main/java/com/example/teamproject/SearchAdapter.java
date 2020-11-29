@@ -9,9 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
-/**
- * Created by Administrator on 2017-08-07.
- */
 
 public class SearchAdapter extends BaseAdapter {
 

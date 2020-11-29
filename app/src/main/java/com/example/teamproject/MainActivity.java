@@ -28,6 +28,13 @@ public class MainActivity extends Activity {
     private TextView textViewResult;
     private JsonParserRetrofit jsonParserRetrofit;
 
+    ArrayList<String> arr_division1 = new ArrayList<String>();
+    ArrayList<String> arr_division2 = new ArrayList<String>();
+
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("http://18.225.5.118:8080/api/datas/gets/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +48,20 @@ public class MainActivity extends Activity {
         searchButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SearchActivity.class);
+                intent.putExtra("list", arr_division2);
                 startActivity(intent);
             }
         });
 
         // 분류를 이용한 검색
         Spinner spinner_division1 = (Spinner) findViewById(R.id.spinner_division1);
-        ArrayList<String> arr_division1 = new ArrayList<String>();
-
         textViewResult = findViewById(R.id.text_view_result);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://13.58.103.212:8080/api/datas/gets/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-
 
         jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
         getDatas();
 
-        arr_division1.add("대분류 선택");
-        arr_division1.add("곡류");
-        arr_division1.add("육류");
+
+        getCategoryList(arr_division1);
         ArrayAdapter<String> adapter_division1 = new ArrayAdapter<String>(this, R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
             @Override
             public boolean isEnabled(int position){
@@ -96,10 +95,8 @@ public class MainActivity extends Activity {
         adapter_division1.setDropDownViewResource(R.layout.spin_div1);
         spinner_division1.setAdapter(adapter_division1);
         Spinner spinner_division2 = (Spinner) findViewById(R.id.spinner_division2);
-        ArrayList<String> arr_division2 = new ArrayList<String>();
-        arr_division2.add("품목 선택");
-        arr_division2.add("쌀");
-        arr_division2.add("소고기");
+
+        getIdList(arr_division2);
 
         ArrayAdapter<String> adapter_division2 = new ArrayAdapter<String>(this, R.layout.spin_div2, R.id.spinner_division2_contents, arr_division2) {
             @Override
@@ -135,8 +132,54 @@ public class MainActivity extends Activity {
 
     }
 
+    private void getIdList(final ArrayList<String> arr_division) {
+        arr_division.add("분류 선택");
+        Call<List<Get>> call = jsonParserRetrofit.getDatas("idList", "null", "null", "null", "null");
+        call.enqueue(new Callback<List<Get>>() {
+            @Override
+            public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
+                if (!response.isSuccessful()) {
+                    textViewResult.setText("Code: " + response.code());
+                    return;
+                }
+                List<Get> gets = response.body();
+                for (Get get : gets) {
+                    arr_division.add(get.getId());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Get>> call, Throwable t) {
+                textViewResult.setText((t.getMessage()));
+            }
+        });
+    }
+
+    private void getCategoryList(final ArrayList<String> arr_division) {
+        arr_division.add("대분류 선택");
+        Call<List<Get>> call = jsonParserRetrofit.getDatas("categoryList", "null", "null", "null", "null");
+        call.enqueue(new Callback<List<Get>>() {
+            @Override
+            public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
+                if (!response.isSuccessful()) {
+                    textViewResult.setText("Code: " + response.code());
+                    return;
+                }
+                List<Get> gets = response.body();
+                for (Get get : gets) {
+                    arr_division.add(get.getCategory());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Get>> call, Throwable t) {
+                textViewResult.setText((t.getMessage()));
+            }
+        });
+    }
+
     private void getDatas() {
-        Call<List<Get>> call = jsonParserRetrofit.getDatas("곡류", "*", "tradition", "last", "p1");
+        Call<List<Get>> call = jsonParserRetrofit.getDatas("곡물", "*", "tradition", "current", "p1");
         call.enqueue(new Callback<List<Get>>() {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
