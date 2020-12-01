@@ -3,4 +3,8 @@
     <string name="division1_prompt">대분류</string>
     <string name="division2_prompt">품목</string>
     <string name="title_activity_maps">Map</string>
+    <string name="menu_home">홈으로</string>
+    <string name="menu_map">지도보기</string>
+    <string name="menu_settings">설정</string>
+
 </resources>

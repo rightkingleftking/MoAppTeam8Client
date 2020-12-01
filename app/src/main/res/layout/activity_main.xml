@@ -1,45 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
-    tools:context=".MainActivity">
 
+    tools:context=".MainActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-
+        android:layout_height="90dp"
+        android:background="@color/colorMainGreen">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="지키미"
-            android:textSize="25dp" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/star" />
-
-        <Button
-            android:id="@+id/favoriteButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:visibility="invisible" />
+            android:textSize="30dp"
+            android:textColor="@color/colorAccGray"/>
 
     </RelativeLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="vertical">
@@ -48,7 +45,9 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center_vertical"
-            android:text="품명으로 찾기" />
+            android:text="품명으로 찾기"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,12 +64,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
-                android:src="@drawable/searchbar_img" />
+                android:src="@drawable/searchbar" />
         </RelativeLayout>
     </LinearLayout>
 
 
     <LinearLayout
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="vertical">
@@ -79,7 +79,9 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center_vertical"
-            android:text="분류로 찾기" />
+            android:text="분류로 찾기"
+            android:textSize="20dp"
+/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,17 +107,19 @@
                 android:text="검색" />
         </LinearLayout>
     </LinearLayout>
-    
+
     <LinearLayout
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="시장 선택" />
+            android:text="시장 선택"
+            android:textSize="20dp" />
         <Button
             android:id="@+id/M_select_btn"
             android:layout_width="wrap_content"
@@ -127,15 +131,17 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center_vertical"
-            android:text="지도에서 찾기" />
+            android:text="지도에서 찾기"
+            android:textSize="20dp"/>
         <Button
             android:id="@+id/M_map_btn"
             android:layout_width="wrap_content"
@@ -148,6 +154,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="vertical">
@@ -163,6 +170,35 @@
         </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_alignParentBottom="true"
+            android:id="@+id/frameLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavBar"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu="@menu/navigation_items"
+                android:background="@color/colorAccGray"
+                app:itemTextColor="@color/bottom_navigation_colors"
+                app:itemIconTint="@color/bottom_navigation_colors"/>
+
+        </FrameLayout>
+    </RelativeLayout>
+    </FrameLayout>
+
 
 
 </LinearLayout>
