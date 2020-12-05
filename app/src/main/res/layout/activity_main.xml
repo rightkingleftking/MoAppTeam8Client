@@ -1,208 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
 
+    android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/colorMainGreen">
+
+<!--    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="585dp"
+        android:background="@color/colorMainGreen"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="지키미"
-            android:textSize="30dp"
-            android:textColor="@color/colorAccGray"/>
+            android:textColor="@color/colorAccGray"
+            android:textSize="30dp" />
 
-    </RelativeLayout>
+    </RelativeLayout>-->
+
 
     <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="vertical">
+        android:background="@color/colorAccGray"
+        app:itemIconTint="@color/bottom_navigation_colors"
+        app:itemTextColor="@color/bottom_navigation_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:menu="@menu/navigation_items" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center_vertical"
-            android:text="품명으로 찾기"
-            android:textSize="20dp"
-            android:layout_marginBottom="10dp"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <Button
-                android:id="@+id/searchbar_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#00ff0000" />
-
-            <ImageView
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerInside"
-                android:src="@drawable/searchbar" />
-        </RelativeLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center_vertical"
-            android:text="분류로 찾기"
-            android:textSize="20dp"
-/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Spinner
-                android:popupElevation="0dp"
-                android:popupBackground="@color/colorAccGray"
-                android:id="@+id/spinner_division1"
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:layout_weight="2" />
-
-            <Spinner
-                android:spinnerMode="dropdown"
-                android:overlapAnchor="false"
-                android:id="@+id/spinner_division2"
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:layout_weight="2" />
-
-            <Button
-                android:id="@+id/seachButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="검색" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="시장 선택"
-            android:textSize="20dp" />
-        <Button
-            android:id="@+id/M_select_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="시장 선택창 가기"
-            android:onClick="onM_select_btn_clicked"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center_vertical"
-            android:text="지도에서 찾기"
-            android:textSize="20dp"/>
-        <Button
-            android:id="@+id/M_map_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="지도 열기"
-            android:onClick="onM_map_btn_clicked"/>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="vertical">
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/text_view_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </androidx.core.widget.NestedScrollView>
-
-    </LinearLayout>
-    </LinearLayout>
-    </ScrollView>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <FrameLayout
-            android:layout_alignParentBottom="true"
-            android:id="@+id/frameLayout"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavBar"
-                android:layout_gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:menu="@menu/navigation_items"
-                android:background="@color/colorAccGray"
-                app:itemTextColor="@color/bottom_navigation_colors"
-                app:itemIconTint="@color/bottom_navigation_colors"/>
-
-        </FrameLayout>
-    </RelativeLayout>
-    </FrameLayout>
-
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
