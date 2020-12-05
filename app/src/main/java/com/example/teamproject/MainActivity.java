@@ -4,13 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +50,25 @@ public class MainActivity extends Activity {
 //        Intent intent = new Intent(this, LoadingActivity.class); // 로딩페이지
 //        startActivity(intent);
 
+        BottomNavigationView bottomNavBar = (BottomNavigationView) findViewById(R.id.bottomNavBar);
+        bottomNavBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        return true;
+                    case R.id.action_map:
+                        startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                        return true;
+                    case R.id.action_settings:
+                        startActivity(new Intent(MainActivity.this, Setting.class));
+                        return true;
+                }
+                return false;
+            }
+        });
+
         // 검색어 직접입력을 위한 화면 전환
         Button searchButton = (Button) findViewById(R.id.searchbar_btn);
         searchButton.setOnClickListener(new Button.OnClickListener() {
@@ -59,7 +85,6 @@ public class MainActivity extends Activity {
 
         jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
         getDatas();
-
 
         getCategoryList(arr_division1);
         ArrayAdapter<String> adapter_division1 = new ArrayAdapter<String>(this, R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
@@ -94,6 +119,10 @@ public class MainActivity extends Activity {
 
         adapter_division1.setDropDownViewResource(R.layout.spin_div1);
         spinner_division1.setAdapter(adapter_division1);
+
+
+
+
         Spinner spinner_division2 = (Spinner) findViewById(R.id.spinner_division2);
 
         getIdList(arr_division2);
