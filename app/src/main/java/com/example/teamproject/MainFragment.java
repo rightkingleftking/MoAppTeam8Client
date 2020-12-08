@@ -46,15 +46,15 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         // 검색어 직접입력을 위한 화면 전환
-        Button searchButton = (Button) v.findViewById(R.id.searchbar_btn);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
-                intent.putExtra("list", arr_division2);
-                startActivity(intent);
-            }
-        });
+//        Button searchButton = (Button) v.findViewById(R.id.searchbar_btn);
+//        searchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+//                intent.putExtra("list", arr_division2);
+//                startActivity(intent);
+//            }
+//        });
 
         Button selectButton = (Button) v.findViewById(R.id.M_select_btn);
         selectButton.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +202,7 @@ public class MainFragment extends Fragment {
                 }
                 List<Get> gets = response.body();
                 for (Get get : gets) {
+                    // get.setDistance( input distance )
                     String content = "";
                     content += "Category: " + get.getCategory() + "\n";
                     content += "Id: " + get.getId() + "\n";

@@ -6,11 +6,14 @@ public class Get {
     private String category;
     private String id;
     private String unit;
+    private double distance;
     private int p;
 
 
     @SerializedName("body")
     private String text;
+
+    public double getDistance() { return distance; }
 
     public String getCategory() {
         return category;
