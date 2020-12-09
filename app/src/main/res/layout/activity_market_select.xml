@@ -15,13 +15,15 @@
         android:gravity="center"
         android:textSize="30sp" />
 
-    <CheckBox
-        android:id="@+id/t"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.3"
         android:background="#E8E7E7"
-        android:text="전통 시장" />
+        android:text="  전통 시장"
+        android:textSize="20sp"
+        android:gravity="left|center"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,13 +104,15 @@
             android:text="팔달시장(북구)" />
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/s"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.3"
         android:background="#E8E7E7"
-        android:text="대형 마트" />
+        android:text="  대형 마트"
+        android:textSize="20sp"
+        android:gravity="left|center"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
