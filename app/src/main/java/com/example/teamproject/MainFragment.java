@@ -2,6 +2,7 @@ package com.example.teamproject;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -16,7 +17,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,14 +28,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MainFragment extends Fragment {
     private String mParam2;
 
-    private TextView textViewResult;
+    private TextView trad_textView, super_textView;
     private JsonParserRetrofit jsonParserRetrofit;
+    private HashMap<String, String> trad_map = new HashMap<String, String>();
+    private HashMap<String, String> super_map = new HashMap<String, String>();
 
     ArrayList<String> arr_division1 = new ArrayList<String>();
     ArrayList<String> arr_division2 = new ArrayList<String>();
+
+    Spinner spinner_division1, spinner_division2;
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://18.225.5.118:8080/api/datas/gets/")
@@ -56,6 +66,7 @@ public class MainFragment extends Fragment {
 //            }
 //        });
 
+        init_map();
         Button selectButton = (Button) v.findViewById(R.id.M_select_btn);
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,12 +76,35 @@ public class MainFragment extends Fragment {
             }
         });
 
+        Button searchButton = (Button) v.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String category = spinner_division1.getSelectedItem().toString();  //대분류 선택 정보 가져오기
+                String id = spinner_division2.getSelectedItem().toString();  //분류 선택 정보 가져오기
+                String [] value_list1, value_list2;
+
+                value_list1 = get_check_info("tradition");
+                value_list2 = get_check_info("super");
+
+                trad_textView.setText(null);
+                super_textView.setText(null);
+
+                search(category, id, "tradition", "current", value_list1, trad_textView);
+                search(category, id, "super", "current", value_list2, super_textView);
+            }
+        });
+
         // 분류를 이용한 검색
-        Spinner spinner_division1 = (Spinner) v.findViewById(R.id.spinner_division1);
-        textViewResult = v.findViewById(R.id.text_view_result);
+        spinner_division1 = (Spinner) v.findViewById(R.id.spinner_division1);
+        trad_textView = v.findViewById(R.id.trad_text_view);
+        super_textView = v.findViewById(R.id.super_text_view);
 
         jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
-        getDatas();
+
+        //초기화면 예시 데이터
+        getDatas("곡물", "*", "tradition", "current", "p1", trad_textView);
+        getDatas("곡물", "*", "super", "current", "p1", super_textView);
 
         getCategoryList(arr_division1);
         ArrayAdapter<String> adapter_division1 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
@@ -106,7 +140,7 @@ public class MainFragment extends Fragment {
         adapter_division1.setDropDownViewResource(R.layout.spin_div1);
         spinner_division1.setAdapter(adapter_division1);
 
-        Spinner spinner_division2 = (Spinner) v.findViewById(R.id.spinner_division2);
+        spinner_division2 = (Spinner) v.findViewById(R.id.spinner_division2);
 
         getIdList(arr_division2);
 
@@ -152,7 +186,8 @@ public class MainFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
                 if (!response.isSuccessful()) {
-                    textViewResult.setText("Code: " + response.code());
+                    trad_textView.setText("Code: " + response.code());
+                    super_textView.setText("Code: " + response.code());
                     return;
                 }
                 List<Get> gets = response.body();
@@ -163,7 +198,8 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Get>> call, Throwable t) {
-                textViewResult.setText((t.getMessage()));
+                trad_textView.setText((t.getMessage()));
+                super_textView.setText((t.getMessage()));
             }
         });
     }
@@ -175,7 +211,8 @@ public class MainFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
                 if (!response.isSuccessful()) {
-                    textViewResult.setText("Code: " + response.code());
+                    trad_textView.setText("Code: " + response.code());
+                    super_textView.setText("Code: " + response.code());
                     return;
                 }
                 List<Get> gets = response.body();
@@ -186,42 +223,101 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Get>> call, Throwable t) {
-                textViewResult.setText((t.getMessage()));
+                trad_textView.setText((t.getMessage()));
+                super_textView.setText((t.getMessage()));
             }
         });
     }
 
-    private void getDatas() {
-        Call<List<Get>> call = jsonParserRetrofit.getDatas("곡물", "*", "tradition", "current", "p1");
+    private void getDatas(String category, String id, final String tag, String week, final String market, final TextView textView) {
+        Call<List<Get>> call = jsonParserRetrofit.getDatas(category, id, tag, week, market);
         call.enqueue(new Callback<List<Get>>() {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
                 if (!response.isSuccessful()) {
-                    textViewResult.setText("Code: " + response.code());
+                    textView.setText("Code: " + response.code());
                     return;
                 }
                 List<Get> gets = response.body();
+                print_market(tag, market, textView);
+
                 for (Get get : gets) {
-                    // get.setDistance( input distance )
                     String content = "";
                     content += "Category: " + get.getCategory() + "\n";
                     content += "Id: " + get.getId() + "\n";
                     content += "Unit: " + get.getUnit() + "\n";
-                    content += "P: " + get.getP() + "\n\n";
-
-                    textViewResult.append(content);
+                    content += "P: " + return_p(get.getP()) + "\n\n";
+                    textView.append(content);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Get>> call, Throwable t) {
-                textViewResult.setText((t.getMessage()));
+                textView.setText((t.getMessage()));
             }
         });
     }
 
-    public void onM_map_btn_clicked(View view) {
-/*        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-        startActivity(intent);*/
+    public void print_market(String tag, String market, TextView textView) {
+        if(tag.equals("tradition"))
+            textView.append(trad_map.get(market) + "\n");
+        else
+            textView.append(super_map.get(market) + "\n");
+    }
+
+    public String return_p(int p) {
+        if(p == 0)
+            return "일시품절";
+        else if(p == -1)
+            return "비매";
+        else if(p == -2)
+            return "품절";
+        else return Integer.toString(p);
+    }
+
+    /*public void onM_map_btn_clicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+        startActivity(intent);
+    }*/
+
+    public void search(String category, String id, String tag, String week, String [] value_list, TextView textView) { // //순서 바뀌는 거 방지 - synchronized
+        value_list = get_check_info(tag);
+        for(int i=0; i<value_list.length; i++)
+            getDatas(category, id, tag, week, value_list[i], textView);
+    }
+
+    public String [] get_check_info(String tag) {
+        SharedPreferences sp = this.getActivity().getSharedPreferences(tag, MODE_PRIVATE);
+        String value_list [] = new String [8];
+        Map<String, ?> info;
+        int cnt = 0;
+
+        info = sp.getAll();
+        for(Map.Entry<String, ?> entry : info.entrySet())
+            value_list[cnt++] = (String)entry.getValue();
+
+        value_list = Arrays.copyOfRange(value_list, 0, cnt);
+        Arrays.sort(value_list);
+        return value_list;
+    }
+
+    public void init_map() {
+        trad_map.put("p1", "남문시장(중구)");
+        trad_map.put("p2", "동구시장(동구)");
+        trad_map.put("p3", "서문시장(중구)");
+        trad_map.put("p4", "봉덕시장(남구)");
+        trad_map.put("p5", "칠성시장(북구)");
+        trad_map.put("p6", "수성시장(수성구)");
+        trad_map.put("p7", "서남시장(달서구)");
+        trad_map.put("p8", "팔달시장(북구)");
+
+        super_map.put("p1", "동아쇼핑");
+        super_map.put("p2", "홈플러스 내당점");
+        super_map.put("p3", "롯데마트 율하점");
+        super_map.put("p4", "롯데슈퍼 수성점");
+        super_map.put("p5", "북대구농협 하나로마트");
+        super_map.put("p6", "이마트 만촌점");
+        super_map.put("p7", "홈플러스 성서점");
+        super_map.put("p8", "이마트 칠성점");
     }
 }
