@@ -1,5 +1,8 @@
 package com.example.teamproject;
 
+import android.location.Location;
+import android.location.LocationManager;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class MarketLocation {
@@ -47,7 +50,7 @@ public class MarketLocation {
             "팔달시장"
     };
 
-    // return nearest index
+    // return nearest market "p1~8"
     public static String nearSuper(LatLng currentLocation) {
         int ret = 0;
         double distance = 0.0;
@@ -62,7 +65,7 @@ public class MarketLocation {
         return "p" + (ret + 1);
     }
 
-    // return nearest index
+    // return nearest market "p1~8"
     public static String nearTradi(LatLng currentLocation) {
         int ret = 0;
         double distance = 0.0;
@@ -77,12 +80,19 @@ public class MarketLocation {
         return "p" + (ret + 1);
     }
 
-    public static double calcDistance(LatLng location1, LatLng location2) {
-        return (location1.latitude - location2.latitude) * (location1.latitude - location2.latitude)
-                + (location1.longitude - location2.longitude) * (location1.longitude - location2.longitude);
+    // return float meter
+    public static float calcDistance(LatLng location1, LatLng location2) {
+        Location l1 = new Location(LocationManager.GPS_PROVIDER);
+        l1.setLatitude(location1.latitude);
+        l1.setLongitude(location1.longitude);
+        Location l2 = new Location(LocationManager.GPS_PROVIDER);
+        l2.setLatitude(location2.latitude);
+        l2.setLongitude(location2.longitude);
+
+        return l1.distanceTo(l2);
     }
 
-    public static double calcDistance(LatLng currentLocation, int index) {
+    public static float calcDistance(LatLng currentLocation, int index) {
         return calcDistance(currentLocation, tradiLocation[index]);
     }
 }
