@@ -59,6 +59,9 @@ public class MapsFragment extends Fragment {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                 }
                 currentMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("현재위치"));
+            } else {
+                mMap.moveCamera((CameraUpdateFactory.newLatLngZoom(currentLocation, 16)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             }
         }
     };

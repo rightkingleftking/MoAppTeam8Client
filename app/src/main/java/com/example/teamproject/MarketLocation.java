@@ -48,34 +48,41 @@ public class MarketLocation {
     };
 
     // return nearest index
-    public static int nearSuper(LatLng currentLocation) {
+    public static String nearSuper(LatLng currentLocation) {
         int ret = 0;
         double distance = 0.0;
 
         for(int i = 0; i < superLocation.length; i++) {
-            double t = (superLocation[i].latitude - currentLocation.latitude) * (superLocation[i].latitude - currentLocation.latitude)
-                    + (superLocation[i].longitude - currentLocation.longitude) * (superLocation[i].longitude - currentLocation.longitude);
+            double t = calcDistance(currentLocation, i);
             if(i == 0 || distance > t) {
                 ret = i;
                 distance = t;
             }
         }
-        return ret;
+        return "p" + (ret + 1);
     }
 
     // return nearest index
-    public static int nearTradi(LatLng currentLocation) {
+    public static String nearTradi(LatLng currentLocation) {
         int ret = 0;
         double distance = 0.0;
 
         for(int i = 0; i < tradiLocation.length; i++) {
-            double t = (tradiLocation[i].latitude - currentLocation.latitude) * (tradiLocation[i].latitude - currentLocation.latitude)
-                    + (tradiLocation[i].longitude - currentLocation.longitude) * (tradiLocation[i].longitude - currentLocation.longitude);
+            double t = calcDistance(currentLocation, i);
             if(i == 0 || distance > t) {
                 ret = i;
                 distance = t;
             }
         }
-        return ret;
+        return "p" + (ret + 1);
+    }
+
+    public static double calcDistance(LatLng location1, LatLng location2) {
+        return (location1.latitude - location2.latitude) * (location1.latitude - location2.latitude)
+                + (location1.longitude - location2.longitude) * (location1.longitude - location2.longitude);
+    }
+
+    public static double calcDistance(LatLng currentLocation, int index) {
+        return calcDistance(currentLocation, tradiLocation[index]);
     }
 }
