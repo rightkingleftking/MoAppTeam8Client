@@ -51,17 +51,15 @@ public class MapsFragment extends Fragment {
             List<Location> locationList = locationResult.getLocations();
 
             if (locationList.size() > 0) {
+                LatLng lastLocation = currentLocation;
                 currentLocation = new LatLng(locationList.get(locationList.size() - 1).getLatitude(), locationList.get(locationList.size() - 1).getLongitude());
                 if(currentMarker != null)
                     currentMarker.remove();
-                else {
-                    mMap.moveCamera((CameraUpdateFactory.newLatLngZoom(currentLocation, 16)));
+                if(currentMarker == null || MarketLocation.calcDistance(currentLocation, lastLocation) >= 30){
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                 }
                 currentMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("현재위치"));
-            } else {
-                mMap.moveCamera((CameraUpdateFactory.newLatLngZoom(currentLocation, 16)));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             }
         }
     };
