@@ -50,8 +50,6 @@ public class MainFragment extends Fragment {
     private HashMap<String, String> super_map = new HashMap<String, String>();
     private TableLayout tableResult;
     private TextView textViewResult;
-//    private TableRow tableRow;
-//    private View v2;
     View v;
 
     int result_cnt = 0;
@@ -122,6 +120,54 @@ public class MainFragment extends Fragment {
                 //print_Screen(trad_textView);
             }
         });
+        Button sortButton_D = (Button) v.findViewById(R.id.sortButton_D);
+        sortButton_D.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tableResult.removeAllViews();
+                Collections.sort(result, new Comparator<Get>() {
+                    @Override
+                    public int compare(Get t1, Get t2) {
+                        if(t1.getDistance() > t2.getDistance())
+                            return 1;
+                        else if(t1.getDistance() < t2.getDistance())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+                getFunc();
+
+            }
+        });
+        Button sortButton_P = (Button) v.findViewById(R.id.sortButton_P);
+        sortButton_P.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tableResult.removeAllViews();
+                Collections.sort(result, new Comparator<Get>() {
+                    @Override
+                    public int compare(Get t1, Get t2) {
+                        if(t1.getP()<=0){
+                            return 1;
+                        }
+                        if(t2.getP()<=0){
+                            return -1;
+                        }
+                        if(t1.getP() > t2.getP())
+                            return 1;
+                        else if(t1.getP() < t2.getP())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+                getFunc();
+
+            }
+        });
+
+
 
         // 분류를 이용한 검색
         spinner_division1 = (Spinner) v.findViewById(R.id.spinner_division1);
@@ -138,6 +184,7 @@ public class MainFragment extends Fragment {
         ArrayAdapter<String> adapter_division1 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
             @Override
             public boolean isEnabled(int position) {
+
                 if (position == 0) {
                     // Disable the first item from Spinner
                     // First item will be use for hint
@@ -197,6 +244,7 @@ public class MainFragment extends Fragment {
         };
         adapter_division2.setDropDownViewResource(R.layout.spin_div2);
         spinner_division2.setAdapter(adapter_division2);
+
 
         return v;
     }
@@ -278,104 +326,7 @@ public class MainFragment extends Fragment {
                     result.add(get);
 
                 }
-                TextView tv = new TextView(v.getContext());
-                tv.setLayoutParams(new
-                        TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                        TableRow.LayoutParams.WRAP_CONTENT));
-                tv.setText("판매처");
-                tv.setGravity(Gravity.CENTER);
-
-                TextView tv2 = new TextView(v.getContext());
-                tv2.setLayoutParams(new
-                        TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                        TableRow.LayoutParams.WRAP_CONTENT));
-                tv2.setText("단위");
-                tv2.setGravity(Gravity.CENTER);
-
-                TextView tv3 = new TextView(v.getContext());
-                tv3.setLayoutParams(new
-                        TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                        TableRow.LayoutParams.WRAP_CONTENT));
-                tv3.setText("가격");
-                tv3.setGravity(Gravity.CENTER);
-
-                TableRow tr = new TableRow(v.getContext());
-                tr.setId(0);
-                TableLayout.LayoutParams trParams = new
-                        TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                        TableLayout.LayoutParams.WRAP_CONTENT);
-                tr.setLayoutParams(trParams);
-                tr.addView(tv);
-                tr.addView(tv2);
-                tr.addView(tv3);
-                tableResult.addView(tr);
-
-                int index = 1; // for set id
-                for (Get temp : result){
-                    tv = new TextView(v.getContext());
-                    tv.setLayoutParams(new
-                            TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                            TableRow.LayoutParams.WRAP_CONTENT));
-                    tv.setText(temp.market_name);
-                    tv2 = new TextView(v.getContext());
-                    tv2.setLayoutParams(new
-                            TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                            TableRow.LayoutParams.WRAP_CONTENT));
-                    tv2.setText(temp.getUnit());
-
-                    tv3 = new TextView(v.getContext());
-                    tv3.setLayoutParams(new
-                            TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
-                            TableRow.LayoutParams.WRAP_CONTENT));
-
-                    tv3.setText(String.valueOf(temp.getP()));
-
-                    // add table row
-                    tr = new TableRow(v.getContext());
-                    tr.setId(index);
-                    tr.setLayoutParams(trParams);
-                    tr.addView(tv);
-                    tr.addView(tv2);
-        /*            if(tv3.getParent() != null)
-                        ((ViewGroup) tv3.getParent()).removeView(tv3);
-        */            tr.addView(tv3);
-                    tableResult.addView(tr);
-                    index++;
-                }
-
-                Collections.sort(result, new Comparator<Get>() {
-                    @Override
-                    public int compare(Get t1, Get t2) {
-                        if(t1.getDistance() > t2.getDistance())
-                            return 1;
-                        else if(t1.getDistance() < t2.getDistance())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
-
-                Collections.sort(result, new Comparator<Get>() {
-                    @Override
-                    public int compare(Get t1, Get t2) {
-                        if(t1.getP() > t2.getP())
-                            return 1;
-                        else if(t1.getP() < t2.getP())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
-
-                for(Get temp : result){
-                    String content = "";
-                    content += temp.getDistance() + " " ;
-                    content += temp.getCategory() + " " ;
-                    content += temp.getP() + " " ;
-                    content += temp.getId() + " ";
-                    Log.i("MainActivity", content);
-                }
-
+                getFunc();
             }
 
             @Override
@@ -385,6 +336,83 @@ public class MainFragment extends Fragment {
         });
     }
 
+    public void getFunc(){
+        TextView tv = new TextView(v.getContext());
+        tv.setLayoutParams(new
+                TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
+        tv.setText("판매처");
+        tv.setGravity(Gravity.CENTER);
+
+        TextView tv2 = new TextView(v.getContext());
+        tv2.setLayoutParams(new
+                TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
+        tv2.setText("단위");
+        tv2.setGravity(Gravity.CENTER);
+
+        TextView tv3 = new TextView(v.getContext());
+        tv3.setLayoutParams(new
+                TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
+        tv3.setText("가격");
+        tv3.setGravity(Gravity.CENTER);
+
+        TextView tv4 = new TextView(v.getContext());
+        tv4.setLayoutParams(new
+                TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
+        tv4.setText("거리");
+        tv4.setGravity(Gravity.CENTER);
+
+        TableRow tr = new TableRow(v.getContext());
+        tr.setId(0);
+        TableLayout.LayoutParams trParams = new
+                TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT);
+        tr.setLayoutParams(trParams);
+        tr.addView(tv);
+        tr.addView(tv2);
+        tr.addView(tv3);
+        tr.addView(tv4);
+        tableResult.addView(tr);
+        int index = 1; // for set id
+        for (Get temp : result){
+            tv = new TextView(v.getContext());
+            tv.setLayoutParams(new
+                    TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
+            tv.setText(temp.market_name);
+            tv2 = new TextView(v.getContext());
+            tv2.setLayoutParams(new
+                    TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
+            tv2.setText(temp.getUnit());
+
+            tv3 = new TextView(v.getContext());
+            tv3.setLayoutParams(new
+                    TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
+            tv3.setText(return_p(temp.getP()));
+
+            tv4 = new TextView(v.getContext());
+            tv4.setLayoutParams(new
+                    TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
+            tv4.setText(String.format("%.1fkm",temp.getDistance()/1000));
+
+            // add table row
+            tr = new TableRow(v.getContext());
+            tr.setId(index);
+            tr.setLayoutParams(trParams);
+            tr.addView(tv);
+            tr.addView(tv2);
+            tr.addView(tv3);
+            tr.addView(tv4);
+            tableResult.addView(tr);
+            index++;
+        }
+    }
     public String return_market_name(String tag, String market) {
         if (tag.equals("tradition"))
             return trad_map.get(market);
