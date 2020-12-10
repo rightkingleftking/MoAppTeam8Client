@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.annotations.SerializedName;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,8 +42,12 @@ public class MainFragment extends Fragment {
     private HashMap<String, String> trad_map = new HashMap<String, String>();
     private HashMap<String, String> super_map = new HashMap<String, String>();
 
+    int result_cnt = 0;
+
     ArrayList<String> arr_division1 = new ArrayList<String>();
     ArrayList<String> arr_division2 = new ArrayList<String>();
+
+    ArrayList<Get> result = new ArrayList<>();
 
     Spinner spinner_division1, spinner_division2;
 
@@ -92,6 +100,8 @@ public class MainFragment extends Fragment {
 
                 search(category, id, "tradition", "current", value_list1, trad_textView);
                 search(category, id, "super", "current", value_list2, super_textView);
+
+                //print_Screen(trad_textView);
             }
         });
 
@@ -103,8 +113,8 @@ public class MainFragment extends Fragment {
         jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
 
         //초기화면 예시 데이터
-        getDatas("곡물", "*", "tradition", "current", "p1", trad_textView);
-        getDatas("곡물", "*", "super", "current", "p1", super_textView);
+        //getDatas("곡물", "쌀", "tradition", "current", "p1");
+       // getDatas("곡물", "쌀", "super", "current", "p1");
 
         getCategoryList(arr_division1);
         ArrayAdapter<String> adapter_division1 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
@@ -229,40 +239,36 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void getDatas(String category, String id, final String tag, String week, final String market, final TextView textView) {
+    private void getDatas(final String category, final String id, final String tag, final String week, final String market) {
         Call<List<Get>> call = jsonParserRetrofit.getDatas(category, id, tag, week, market);
         call.enqueue(new Callback<List<Get>>() {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
                 if (!response.isSuccessful()) {
-                    textView.setText("Code: " + response.code());
                     return;
                 }
                 List<Get> gets = response.body();
-                print_market(tag, market, textView);
-
                 for (Get get : gets) {
-                    String content = "";
-                    content += "Category: " + get.getCategory() + "\n";
-                    content += "Id: " + get.getId() + "\n";
-                    content += "Unit: " + get.getUnit() + "\n";
-                    content += "P: " + return_p(get.getP()) + "\n\n";
-                    textView.append(content);
+                    get.market_name = return_market_name(tag, market);
+                    get.tag = tag;
+                    result.add(get);
+                    //여기서 get에 대한 정보들을 바로 출력하시면 됩니다.
+                    //필드 값 얻는 것 market_name, tag 제외하고는 get.get? 메소드 사용하시면 됩니다. get.getCategory();
+                    //또 따로 정렬 버튼 만든 후에, 정렬 버튼 리스터에 정렬 처리해주시면 됩니다. Get안에 Compareto 메소드 구현 되어있습니다.
                 }
             }
-
             @Override
             public void onFailure(Call<List<Get>> call, Throwable t) {
-                textView.setText((t.getMessage()));
+                return;
             }
         });
     }
 
-    public void print_market(String tag, String market, TextView textView) {
+    public String return_market_name(String tag, String market) {
         if(tag.equals("tradition"))
-            textView.append(trad_map.get(market) + "\n");
+            return trad_map.get(market);
         else
-            textView.append(super_map.get(market) + "\n");
+            return super_map.get(market);
     }
 
     public String return_p(int p) {
@@ -280,11 +286,24 @@ public class MainFragment extends Fragment {
         startActivity(intent);
     }*/
 
-    public void search(String category, String id, String tag, String week, String [] value_list, TextView textView) { // //순서 바뀌는 거 방지 - synchronized
+    public synchronized void search(String category, String id, String tag, String week, String [] value_list, TextView textView) { // //순서 바뀌는 거 방지 - synchronized
         value_list = get_check_info(tag);
         for(int i=0; i<value_list.length; i++)
-            getDatas(category, id, tag, week, value_list[i], textView);
+            getDatas(category, id, tag, week, value_list[i]);
     }
+
+    /*public void print_Screen(TextView textView) {
+        System.out.println(result.size());
+        for(int i=0; i<result.size(); i++) {
+            String content = "";
+            content += "tag : " + result.get(i).tag + "\n";
+            content += "가게 이름 : " + result.get(i).market_name + "\n";
+            content += "단위: " + result.get(i).getUnit() + "\n";
+            content += "가격: " + result.get(i).getP() + "\n\n";
+            textView.append(content);
+        }
+        //result.clear();
+    }*/
 
     public String [] get_check_info(String tag) {
         SharedPreferences sp = this.getActivity().getSharedPreferences(tag, MODE_PRIVATE);
