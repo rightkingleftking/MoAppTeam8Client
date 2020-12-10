@@ -24,6 +24,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -245,17 +247,13 @@ public class MainFragment extends Fragment {
 
                 for (Get get : gets) {
                     String content = "";
-//                    content += "marget index checker: " + market.charAt(1) + "\n";
                     get.market_name = return_market_name(tag, market);
-//                    Log.i("MainActivity", tag);
-//                    Log.i("MainActivity", market.charAt(1) + "");
                     if (tag.compareTo("tradition") == 0) {
                         get.setDistance(MarketLocation.calcTradiDistance(MapsFragment.getCurrentLocation(), market.charAt(1) - '0' - 1));
                     } else if (tag.compareTo("super") == 0) {
                         get.setDistance(MarketLocation.calcSuperDistance(MapsFragment.getCurrentLocation(), market.charAt(1) - '0' - 1));
                     }
                     Log.i("MainActivity", MapsFragment.getCurrentLocation() + "");
-//                    Log.i("MainActivity", get.getDistance() + "");
                     get.tag = tag;
                     result.add(get);
 
@@ -268,6 +266,40 @@ public class MainFragment extends Fragment {
                     //필드 값 얻는 것 market_name, tag 제외하고는 get.get? 메소드 사용하시면 됩니다. get.getCategory();
                     //또 따로 정렬 버튼 만든 후에, 정렬 버튼 리스터에 정렬 처리해주시면 됩니다. Get안에 Compareto 메소드 구현 되어있습니다.
                 }
+
+                Collections.sort(result, new Comparator<Get>() {
+                    @Override
+                    public int compare(Get t1, Get t2) {
+                        if(t1.getDistance() > t2.getDistance())
+                            return 1;
+                        else if(t1.getDistance() < t2.getDistance())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+
+                Collections.sort(result, new Comparator<Get>() {
+                    @Override
+                    public int compare(Get t1, Get t2) {
+                        if(t1.getP() > t2.getP())
+                            return 1;
+                        else if(t1.getP() < t2.getP())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+
+                for(Get temp : result){
+                    String content = "";
+                    content += temp.getDistance() + " " ;
+                    content += temp.getCategory() + " " ;
+                    content += temp.getP() + " " ;
+                    content += temp.getId() + " ";
+                    Log.i("MainActivity", content);
+                }
+
             }
 
             @Override
