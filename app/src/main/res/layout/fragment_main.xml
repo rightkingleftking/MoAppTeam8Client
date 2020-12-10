@@ -127,6 +127,7 @@
                             android:layout_weight="2"
                             android:popupBackground="@color/colorAccGray"
                             android:popupElevation="0dp"
+                            android:spinnerMode="dropdown"
                             android:paddingLeft="10sp"/>
 
                         <Spinner
@@ -134,8 +135,10 @@
                             android:layout_width="130dp"
                             android:layout_height="40dp"
                             android:layout_weight="2"
+                            android:popupBackground="@color/colorAccGray"
+                            android:popupElevation="0dp"
                             android:overlapAnchor="false"
-                            android:spinnerMode="dropdown"
+
                             android:paddingLeft="10sp"/>
 
                         <Button
