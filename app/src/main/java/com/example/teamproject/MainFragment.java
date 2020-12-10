@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -56,7 +57,7 @@ public class MainFragment extends Fragment {
 
     ArrayList<String> arr_division1 = new ArrayList<String>();
     ArrayList<String> arr_division2 = new ArrayList<String>();
-
+    ArrayAdapter<String> adapter_division1, adapter_division2;
     ArrayList<Get> result = new ArrayList<>();
 
     Spinner spinner_division1, spinner_division2;
@@ -181,7 +182,7 @@ public class MainFragment extends Fragment {
 
 
         getCategoryList(arr_division1);
-        ArrayAdapter<String> adapter_division1 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
+        adapter_division1 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
             @Override
             public boolean isEnabled(int position) {
 
@@ -211,47 +212,66 @@ public class MainFragment extends Fragment {
 
         adapter_division1.setDropDownViewResource(R.layout.spin_div1);
         spinner_division1.setAdapter(adapter_division1);
+        final String[] selected = new String[1];
+        selected[0] = "idList";
+        spinner_division1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                arr_division2.clear();
+                spinner_division2.setAdapter(null);
+                selected[0] = adapter_division1.getItem(i);
+                getIdList(arr_division2,selected[0]);
+                ArrayAdapter<String> adapter_division2 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div2, R.id.spinner_division2_contents, arr_division2) {
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
+                adapter_division2.setDropDownViewResource(R.layout.spin_div2);
+                spinner_division2.setAdapter(adapter_division2);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         spinner_division2 = (Spinner) v.findViewById(R.id.spinner_division2);
 
-        getIdList(arr_division2);
 
-        ArrayAdapter<String> adapter_division2 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div2, R.id.spinner_division2_contents, arr_division2) {
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView,
-                                        ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                if (position == 0) {
-                    // Set the hint text color gray
-                    tv.setTextColor(Color.GRAY);
-                } else {
-                    tv.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
-        adapter_division2.setDropDownViewResource(R.layout.spin_div2);
-        spinner_division2.setAdapter(adapter_division2);
 
 
         return v;
     }
 
-    private void getIdList(final ArrayList<String> arr_division) {
+    private void getIdList(final ArrayList<String> arr_division, String category) {
         arr_division.add("분류 선택");
-        Call<List<Get>> call = jsonParserRetrofit.getDatas("idList", "null", "null", "null", "null");
+        String temp = null;
+        if (!category.equals("idlist")){
+            temp = "idList";
+        }
+        Call<List<Get>> call = jsonParserRetrofit.getDatas(category, temp, "null", "null", "null");
         call.enqueue(new Callback<List<Get>>() {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
