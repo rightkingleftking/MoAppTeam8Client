@@ -8,12 +8,16 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.gson.annotations.SerializedName;
@@ -41,6 +45,11 @@ public class MainFragment extends Fragment {
     private JsonParserRetrofit jsonParserRetrofit;
     private HashMap<String, String> trad_map = new HashMap<String, String>();
     private HashMap<String, String> super_map = new HashMap<String, String>();
+    private TableLayout tableResult;
+    private TextView textViewResult;
+//    private TableRow tableRow;
+//    private View v2;
+    View v;
 
     int result_cnt = 0;
 
@@ -61,8 +70,8 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
-
+        v = inflater.inflate(R.layout.fragment_main, container, false);
+//        v2 = inflater.inflate(R.layout.fragment_main, container, false);
         // 검색어 직접입력을 위한 화면 전환
 //        Button searchButton = (Button) v.findViewById(R.id.searchbar_btn);
 //        searchButton.setOnClickListener(new View.OnClickListener() {
@@ -92,14 +101,20 @@ public class MainFragment extends Fragment {
                 String id = spinner_division2.getSelectedItem().toString();  //분류 선택 정보 가져오기
                 String [] value_list1, value_list2;
 
+
                 value_list1 = get_check_info("tradition");
                 value_list2 = get_check_info("super");
-
+/*
                 trad_textView.setText(null);
                 super_textView.setText(null);
+*/
+                result.clear();
+                search(category, id, "tradition", "current", value_list1);
+                search(category, id, "super", "current", value_list2);
+                TextView search_title = (TextView) getView().findViewById(R.id.result_title);
+                search_title.setText("\"" +id+ "\"에 대한 검색 결과");
 
-                search(category, id, "tradition", "current", value_list1, trad_textView);
-                search(category, id, "super", "current", value_list2, super_textView);
+
 
                 //print_Screen(trad_textView);
             }
@@ -107,8 +122,11 @@ public class MainFragment extends Fragment {
 
         // 분류를 이용한 검색
         spinner_division1 = (Spinner) v.findViewById(R.id.spinner_division1);
-        trad_textView = v.findViewById(R.id.trad_text_view);
-        super_textView = v.findViewById(R.id.super_text_view);
+        //trad_textView = v.findViewById(R.id.trad_text_view);
+        //super_textView = v.findViewById(R.id.super_text_view);
+        textViewResult = v.findViewById(R.id.text_view_result);
+        tableResult = v.findViewById(R.id.table_result);
+        tableResult.setStretchAllColumns(true);
 
         jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
 
@@ -247,15 +265,86 @@ public class MainFragment extends Fragment {
                 if (!response.isSuccessful()) {
                     return;
                 }
+
                 List<Get> gets = response.body();
+                tableResult.removeAllViews();
                 for (Get get : gets) {
                     get.market_name = return_market_name(tag, market);
                     get.tag = tag;
                     result.add(get);
+                }
+                TextView tv = new TextView(v.getContext());
+                tv.setLayoutParams(new
+                        TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+                tv.setText("판매처");
+                tv.setGravity(Gravity.CENTER);
+
+                TextView tv2 = new TextView(v.getContext());
+                tv2.setLayoutParams(new
+                        TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+                tv2.setText("단위");
+                tv2.setGravity(Gravity.CENTER);
+
+                TextView tv3 = new TextView(v.getContext());
+                tv3.setLayoutParams(new
+                        TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+                tv3.setText("가격");
+                tv3.setGravity(Gravity.CENTER);
+
+                TableRow tr = new TableRow(v.getContext());
+                tr.setId(0);
+                TableLayout.LayoutParams trParams = new
+                        TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                        TableLayout.LayoutParams.WRAP_CONTENT);
+                tr.setLayoutParams(trParams);
+                tr.addView(tv);
+                tr.addView(tv2);
+                tr.addView(tv3);
+                tableResult.addView(tr);
+
+                int index = 1; // for set id
+                for (Get temp : result){
+                    tv = new TextView(v.getContext());
+                    tv.setLayoutParams(new
+                            TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT));
+                    tv.setText(temp.market_name);
+                    tv2 = new TextView(v.getContext());
+                    tv2.setLayoutParams(new
+                            TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT));
+                    tv2.setText(temp.getUnit());
+
+                    tv3 = new TextView(v.getContext());
+                    tv3.setLayoutParams(new
+                            TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT));
+
+                    tv3.setText(String.valueOf(temp.getP()));
+
+                    // add table row
+                    tr = new TableRow(v.getContext());
+                    tr.setId(index);
+                    tr.setLayoutParams(trParams);
+                    tr.addView(tv);
+                    tr.addView(tv2);
+        /*            if(tv3.getParent() != null)
+                        ((ViewGroup) tv3.getParent()).removeView(tv3);
+        */            tr.addView(tv3);
+                    tableResult.addView(tr);
+                    index++;
                     //여기서 get에 대한 정보들을 바로 출력하시면 됩니다.
                     //필드 값 얻는 것 market_name, tag 제외하고는 get.get? 메소드 사용하시면 됩니다. get.getCategory();
                     //또 따로 정렬 버튼 만든 후에, 정렬 버튼 리스터에 정렬 처리해주시면 됩니다. Get안에 Compareto 메소드 구현 되어있습니다.
                 }
+/*
+                if(tableRow.getParent() != null)
+                    ((ViewGroup) tableRow.getParent()).removeView(tableRow);
+*/
+
             }
             @Override
             public void onFailure(Call<List<Get>> call, Throwable t) {
@@ -286,7 +375,7 @@ public class MainFragment extends Fragment {
         startActivity(intent);
     }*/
 
-    public synchronized void search(String category, String id, String tag, String week, String [] value_list, TextView textView) { // //순서 바뀌는 거 방지 - synchronized
+    public synchronized void search(String category, String id, String tag, String week, String [] value_list) { // //순서 바뀌는 거 방지 - synchronized
         value_list = get_check_info(tag);
         for(int i=0; i<value_list.length; i++)
             getDatas(category, id, tag, week, value_list[i]);
