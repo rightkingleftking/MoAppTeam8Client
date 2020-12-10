@@ -2,10 +2,12 @@ package com.example.teamproject;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Get {
+public class Get implements Comparable<Get>{
     private String category;
     private String id;
     private String unit;
+    public String market_name;
+    public String tag;
     private double distance;
     private int p;
 
@@ -33,5 +35,15 @@ public class Get {
 
     public String getText() {
         return text;
+    }
+
+    @Override
+    public int compareTo(Get get) {
+        if(this.p > get.p)
+            return 1;
+        else if(this.p < get.p)
+            return -1;
+        else
+            return 0;
     }
 }
