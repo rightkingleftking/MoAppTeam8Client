@@ -249,11 +249,11 @@ public class MainFragment extends Fragment {
                     get.market_name = return_market_name(tag, market);
 //                    Log.i("MainActivity", tag);
 //                    Log.i("MainActivity", market.charAt(1) + "");
-                    if (tag.compareTo("tradition") == 0) {
-                        get.setDistance(MarketLocation.calcTradiDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0' - 1));
-                    } else if (tag.compareTo("super") == 0) {
-                        get.setDistance(MarketLocation.calcSuperDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0' - 1));
-                    }
+//                    if (tag.compareTo("tradition") == 0) {
+//                        get.setDistance(MarketLocation.calcTradiDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0' - 1));
+//                    } else if (tag.compareTo("super") == 0) {
+//                        get.setDistance(MarketLocation.calcSuperDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0' - 1));
+//                    }
 //                    get.setDistance(MarketLocation.calcDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0'));
                     get.tag = tag;
                     result.add(get);
