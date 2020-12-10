@@ -108,26 +108,4 @@ public class MarketLocation {
     public static float calcSuperDistance(LatLng currentLocation, int index) {
         return calcDistance(currentLocation, superLocation[index]);
     }
-
-    public static LatLng getCurrentLocation(Activity activity) {
-        final LatLng[] ret = {null};
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-        }
-
-        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity);
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(activity, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                // Got last known location. In some rare situations this can be null.
-                if (location != null) {
-                    ret[0] = new LatLng(location.getLatitude(), location.getLongitude());
-                    //System.out.println(ret[0]);
-                }
-            }
-        });
-
-        return ret[0];
-    }
 }
