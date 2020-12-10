@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +92,7 @@ public class MainFragment extends Fragment {
             public void onClick(View view) {
                 String category = spinner_division1.getSelectedItem().toString();  //대분류 선택 정보 가져오기
                 String id = spinner_division2.getSelectedItem().toString();  //분류 선택 정보 가져오기
-                String [] value_list1, value_list2;
+                String[] value_list1, value_list2;
 
                 value_list1 = get_check_info("tradition");
                 value_list2 = get_check_info("super");
@@ -116,28 +118,25 @@ public class MainFragment extends Fragment {
         getCategoryList(arr_division1);
         ArrayAdapter<String> adapter_division1 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
             @Override
-            public boolean isEnabled(int position){
-                if(position == 0)
-                {
+            public boolean isEnabled(int position) {
+                if (position == 0) {
                     // Disable the first item from Spinner
                     // First item will be use for hint
                     return false;
-                }
-                else
-                {
+                } else {
                     return true;
                 }
             }
+
             @Override
             public View getDropDownView(int position, View convertView,
                                         ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
-                if(position == 0){
+                if (position == 0) {
                     // Set the hint text color gray
                     tv.setTextColor(Color.GRAY);
-                }
-                else {
+                } else {
                     tv.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -153,28 +152,25 @@ public class MainFragment extends Fragment {
 
         ArrayAdapter<String> adapter_division2 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div2, R.id.spinner_division2_contents, arr_division2) {
             @Override
-            public boolean isEnabled(int position){
-                if(position == 0)
-                {
+            public boolean isEnabled(int position) {
+                if (position == 0) {
                     // Disable the first item from Spinner
                     // First item will be use for hint
                     return false;
-                }
-                else
-                {
+                } else {
                     return true;
                 }
             }
+
             @Override
             public View getDropDownView(int position, View convertView,
                                         ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
-                if(position == 0){
+                if (position == 0) {
                     // Set the hint text color gray
                     tv.setTextColor(Color.GRAY);
-                }
-                else {
+                } else {
                     tv.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -238,6 +234,7 @@ public class MainFragment extends Fragment {
 
     private void getDatas(final String category, final String id, final String tag, final String week, final String market) {
         Call<List<Get>> call = jsonParserRetrofit.getDatas(category, id, tag, week, market);
+
         call.enqueue(new Callback<List<Get>>() {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
@@ -247,14 +244,26 @@ public class MainFragment extends Fragment {
                 List<Get> gets = response.body();
 
                 for (Get get : gets) {
+//                    String content = "";
+//                    content += "marget index checker: " + market.charAt(1) + "\n";
                     get.market_name = return_market_name(tag, market);
+//                    Log.i("MainActivity", tag);
+//                    Log.i("MainActivity", market.charAt(1) + "");
+                    if (tag.compareTo("tradition") == 0) {
+                        get.setDistance(MarketLocation.calcTradiDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0' - 1));
+                    } else if (tag.compareTo("super") == 0) {
+                        get.setDistance(MarketLocation.calcSuperDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0' - 1));
+                    }
+//                    get.setDistance(MarketLocation.calcDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0'));
                     get.tag = tag;
                     result.add(get);
+
                     //여기서 get에 대한 정보들을 바로 출력하시면 됩니다.
                     //필드 값 얻는 것 market_name, tag 제외하고는 get.get? 메소드 사용하시면 됩니다. get.getCategory();
                     //또 따로 정렬 버튼 만든 후에, 정렬 버튼 리스터에 정렬 처리해주시면 됩니다. Get안에 Compareto 메소드 구현 되어있습니다.
                 }
             }
+
             @Override
             public void onFailure(Call<List<Get>> call, Throwable t) {
                 return;
@@ -263,18 +272,18 @@ public class MainFragment extends Fragment {
     }
 
     public String return_market_name(String tag, String market) {
-        if(tag.equals("tradition"))
+        if (tag.equals("tradition"))
             return trad_map.get(market);
         else
             return super_map.get(market);
     }
 
     public String return_p(int p) {
-        if(p == 0)
+        if (p == 0)
             return "일시품절";
-        else if(p == -1)
+        else if (p == -1)
             return "비매";
-        else if(p == -2)
+        else if (p == -2)
             return "품절";
         else return Integer.toString(p);
     }
@@ -284,9 +293,9 @@ public class MainFragment extends Fragment {
         startActivity(intent);
     }*/
 
-    public synchronized void search(String category, String id, String tag, String week, String [] value_list, TextView textView) { // //순서 바뀌는 거 방지 - synchronized
+    public synchronized void search(String category, String id, String tag, String week, String[] value_list, TextView textView) { // //순서 바뀌는 거 방지 - synchronized
         value_list = get_check_info(tag);
-        for(int i=0; i<value_list.length; i++)
+        for (int i = 0; i < value_list.length; i++)
             getDatas(category, id, tag, week, value_list[i]);
     }
 
@@ -303,15 +312,15 @@ public class MainFragment extends Fragment {
         //result.clear();
     }*/
 
-    public String [] get_check_info(String tag) {
+    public String[] get_check_info(String tag) {
         SharedPreferences sp = this.getActivity().getSharedPreferences(tag, MODE_PRIVATE);
-        String value_list [] = new String [8];
+        String value_list[] = new String[8];
         Map<String, ?> info;
         int cnt = 0;
 
         info = sp.getAll();
-        for(Map.Entry<String, ?> entry : info.entrySet())
-            value_list[cnt++] = (String)entry.getValue();
+        for (Map.Entry<String, ?> entry : info.entrySet())
+            value_list[cnt++] = (String) entry.getValue();
 
         value_list = Arrays.copyOfRange(value_list, 0, cnt);
         Arrays.sort(value_list);
