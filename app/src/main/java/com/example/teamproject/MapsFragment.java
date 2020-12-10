@@ -144,4 +144,8 @@ public class MapsFragment extends Fragment {
     public static LatLng getCurrentLocation() {
         return currentLocation;
     }
+
+    public static void setCurrentLocation(Location location) {
+        currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+    }
 }
