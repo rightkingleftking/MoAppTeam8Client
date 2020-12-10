@@ -17,7 +17,7 @@ public class MarketLocation {
     static LatLng cLocation;
     public static final LatLng[] superLocation = {
             new LatLng(35.8663, 128.5917), // 동아쇼핑
-            new LatLng(35.8605, 128.5637), // 홈플러스 내당점
+            new LatLng(35.86078, 128.56378), // 홈플러스 내당점
             new LatLng(35.8688, 128.6727), // 롯데마트 율하점
             new LatLng(35.8460, 128.6120), // 롯데슈퍼 수성점
             new LatLng(35.8995, 128.6103), // 북대구농협 하나로마트

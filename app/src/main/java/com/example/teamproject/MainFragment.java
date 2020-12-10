@@ -244,19 +244,25 @@ public class MainFragment extends Fragment {
                 List<Get> gets = response.body();
 
                 for (Get get : gets) {
-//                    String content = "";
+                    String content = "";
 //                    content += "marget index checker: " + market.charAt(1) + "\n";
                     get.market_name = return_market_name(tag, market);
 //                    Log.i("MainActivity", tag);
 //                    Log.i("MainActivity", market.charAt(1) + "");
-//                    if (tag.compareTo("tradition") == 0) {
-//                        get.setDistance(MarketLocation.calcTradiDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0' - 1));
-//                    } else if (tag.compareTo("super") == 0) {
-//                        get.setDistance(MarketLocation.calcSuperDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0' - 1));
-//                    }
-//                    get.setDistance(MarketLocation.calcDistance(MarketLocation.getCurrentLocation(getActivity()), market.charAt(1) - '0'));
+                    if (tag.compareTo("tradition") == 0) {
+                        get.setDistance(MarketLocation.calcTradiDistance(MapsFragment.getCurrentLocation(), market.charAt(1) - '0' - 1));
+                    } else if (tag.compareTo("super") == 0) {
+                        get.setDistance(MarketLocation.calcSuperDistance(MapsFragment.getCurrentLocation(), market.charAt(1) - '0' - 1));
+                    }
+                    Log.i("MainActivity", MapsFragment.getCurrentLocation() + "");
+//                    Log.i("MainActivity", get.getDistance() + "");
                     get.tag = tag;
                     result.add(get);
+
+                    content += get.tag + " ";
+                    content += get.market_name + " ";
+                    content += get.getDistance() + " ";
+                    Log.i("MainActivity", content);
 
                     //여기서 get에 대한 정보들을 바로 출력하시면 됩니다.
                     //필드 값 얻는 것 market_name, tag 제외하고는 get.get? 메소드 사용하시면 됩니다. get.getCategory();

@@ -38,7 +38,7 @@ public class MapsFragment extends Fragment {
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     //대구시청
-    private LatLng currentLocation = new LatLng(35.8714, 128.6019);
+    private static LatLng currentLocation = new LatLng(35.8714, 128.6019);
     private Marker currentMarker = null;
     private Marker[] superMarker = new Marker[MarketLocation.superLocation.length];
     private Marker[] tradiMarker = new Marker[MarketLocation.tradiLocation.length];
@@ -141,7 +141,7 @@ public class MapsFragment extends Fragment {
         }
     }
 
-    public LatLng getCurrentLocation() {
+    public static LatLng getCurrentLocation() {
         return currentLocation;
     }
 }
