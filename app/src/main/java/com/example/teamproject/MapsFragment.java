@@ -38,7 +38,7 @@ public class MapsFragment extends Fragment {
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     //대구시청
-    private LatLng currentLocation = new LatLng(35.8714, 128.6019);
+    private static LatLng currentLocation = new LatLng(35.8714, 128.6019);
     private Marker currentMarker = null;
     private Marker[] superMarker = new Marker[MarketLocation.superLocation.length];
     private Marker[] tradiMarker = new Marker[MarketLocation.tradiLocation.length];
@@ -78,15 +78,8 @@ public class MapsFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
 
-            while (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
             }
 
@@ -146,5 +139,13 @@ public class MapsFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+    }
+
+    public static LatLng getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public static void setCurrentLocation(Location location) {
+        currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
     }
 }

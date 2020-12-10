@@ -2,7 +2,7 @@ package com.example.teamproject;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Get implements Comparable<Get>{
+public class Get{
     private String category;
     private String id;
     private String unit;
@@ -11,10 +11,10 @@ public class Get implements Comparable<Get>{
     private double distance;
     private int p;
 
-
     @SerializedName("body")
     private String text;
 
+    public void setDistance(double d) { this.distance = d; }
     public double getDistance() { return distance; }
 
     public String getCategory() {
@@ -37,13 +37,4 @@ public class Get implements Comparable<Get>{
         return text;
     }
 
-    @Override
-    public int compareTo(Get get) {
-        if(this.p > get.p)
-            return 1;
-        else if(this.p < get.p)
-            return -1;
-        else
-            return 0;
-    }
 }
