@@ -56,7 +56,7 @@ public class MarketLocation {
         double distance = 0.0;
 
         for(int i = 0; i < superLocation.length; i++) {
-            double t = calcDistance(currentLocation, i);
+            double t = calcSuperDistance(currentLocation, i);
             if(i == 0 || distance > t) {
                 ret = i;
                 distance = t;
@@ -71,7 +71,7 @@ public class MarketLocation {
         double distance = 0.0;
 
         for(int i = 0; i < tradiLocation.length; i++) {
-            double t = calcDistance(currentLocation, i);
+            double t = calcTradiDistance(currentLocation, i);
             if(i == 0 || distance > t) {
                 ret = i;
                 distance = t;
@@ -92,7 +92,11 @@ public class MarketLocation {
         return l1.distanceTo(l2);
     }
 
-    public static float calcDistance(LatLng currentLocation, int index) {
+    public static float calcTradiDistance(LatLng currentLocation, int index) {
         return calcDistance(currentLocation, tradiLocation[index]);
+    }
+
+    public static float calcSuperDistance(LatLng currentLocation, int index) {
+        return calcDistance(currentLocation, superLocation[index]);
     }
 }
