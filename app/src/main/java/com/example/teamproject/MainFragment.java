@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.Gravity;
@@ -343,6 +344,7 @@ public class MainFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tv.setText("판매처");
         tv.setGravity(Gravity.CENTER);
+        tv.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
 
         TextView tv2 = new TextView(v.getContext());
         tv2.setLayoutParams(new
@@ -350,6 +352,7 @@ public class MainFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tv2.setText("단위");
         tv2.setGravity(Gravity.CENTER);
+        tv2.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
 
         TextView tv3 = new TextView(v.getContext());
         tv3.setLayoutParams(new
@@ -357,6 +360,7 @@ public class MainFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tv3.setText("가격");
         tv3.setGravity(Gravity.CENTER);
+        tv3.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
 
         TextView tv4 = new TextView(v.getContext());
         tv4.setLayoutParams(new
@@ -364,6 +368,7 @@ public class MainFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tv4.setText("거리");
         tv4.setGravity(Gravity.CENTER);
+        tv4.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
 
         TableRow tr = new TableRow(v.getContext());
         tr.setId(0);
@@ -383,23 +388,39 @@ public class MainFragment extends Fragment {
                     TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tv.setText(temp.market_name);
+            tv.setGravity(Gravity.CENTER);
+            tv.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
+            if(temp.tag.compareTo("tradition") == 0)
+                tv.setBackgroundColor(Color.parseColor("#B9F6BB"));
+            else
+                tv.setBackgroundColor(Color.parseColor("#B9DEFB"));
+
             tv2 = new TextView(v.getContext());
             tv2.setLayoutParams(new
                     TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tv2.setText(temp.getUnit());
+            tv2.setGravity(Gravity.CENTER);
+            tv2.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
+
 
             tv3 = new TextView(v.getContext());
             tv3.setLayoutParams(new
                     TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tv3.setText(return_p(temp.getP()));
+            tv3.setGravity(Gravity.CENTER);
+            tv3.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
+
 
             tv4 = new TextView(v.getContext());
             tv4.setLayoutParams(new
                     TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tv4.setText(String.format("%.1fkm",temp.getDistance()/1000));
+            tv4.setGravity(Gravity.CENTER);
+            tv4.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
+
 
             // add table row
             tr = new TableRow(v.getContext());
