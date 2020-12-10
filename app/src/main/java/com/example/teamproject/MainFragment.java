@@ -146,7 +146,6 @@ public class MainFragment extends Fragment {
 
         // 분류를 이용한 검색
         spinner_division1 = (Spinner) v.findViewById(R.id.spinner_division1);
-        textViewResult = v.findViewById(R.id.text_view_result);
         tableResult = v.findViewById(R.id.table_result);
         tableResult.setStretchAllColumns(true);
 
