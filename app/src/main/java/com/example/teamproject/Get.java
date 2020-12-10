@@ -9,10 +9,10 @@ public class Get {
     private double distance;
     private int p;
 
-
     @SerializedName("body")
     private String text;
 
+    public void setDistance(double d) { this.distance = d; }
     public double getDistance() { return distance; }
 
     public String getCategory() {

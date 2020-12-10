@@ -102,9 +102,9 @@ public class MainFragment extends Fragment {
 
         jsonParserRetrofit = retrofit.create(JsonParserRetrofit.class);
 
-        //초기화면 예시 데이터
-        getDatas("곡물", "*", "tradition", "current", "p1", trad_textView);
-        getDatas("곡물", "*", "super", "current", "p1", super_textView);
+//        //초기화면 예시 데이터
+//        getDatas("곡물", "*", "tradition", "current", "p1", trad_textView);
+//        getDatas("곡물", "*", "super", "current", "p1", super_textView);
 
         getCategoryList(arr_division1);
         ArrayAdapter<String> adapter_division1 = new ArrayAdapter<String>(getActivity(), R.layout.spin_div1, R.id.spinner_division1_contents, arr_division1) {
@@ -239,6 +239,7 @@ public class MainFragment extends Fragment {
                     return;
                 }
                 List<Get> gets = response.body();
+
                 print_market(tag, market, textView);
 
                 for (Get get : gets) {

@@ -81,7 +81,7 @@ public class MarketLocation {
     }
 
     // return float meter
-    public static float calcDistance(LatLng location1, LatLng location2) {
+    public static float calcDistance(LatLng location1, LatLng location2) {  //
         Location l1 = new Location(LocationManager.GPS_PROVIDER);
         l1.setLatitude(location1.latitude);
         l1.setLongitude(location1.longitude);
