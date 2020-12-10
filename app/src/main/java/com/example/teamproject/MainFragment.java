@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.Gravity;
@@ -43,17 +44,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.content.Context.MODE_PRIVATE;
 
 public class MainFragment extends Fragment {
-    private String mParam2;
-
-    private TextView trad_textView, super_textView;
     private JsonParserRetrofit jsonParserRetrofit;
     private HashMap<String, String> trad_map = new HashMap<String, String>();
     private HashMap<String, String> super_map = new HashMap<String, String>();
     private TableLayout tableResult;
-    private TextView textViewResult;
     View v;
-
-    int result_cnt = 0;
 
     ArrayList<String> arr_division1 = new ArrayList<String>();
     ArrayList<String> arr_division2 = new ArrayList<String>();
@@ -73,18 +68,6 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_main, container, false);
-//        v2 = inflater.inflate(R.layout.fragment_main, container, false);
-        // 검색어 직접입력을 위한 화면 전환
-//        Button searchButton = (Button) v.findViewById(R.id.searchbar_btn);
-//        searchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
-//                intent.putExtra("list", arr_division2);
-//                startActivity(intent);
-//            }
-//        });
-
         init_map();
         Button selectButton = (Button) v.findViewById(R.id.M_select_btn);
         selectButton.setOnClickListener(new View.OnClickListener() {
@@ -106,19 +89,13 @@ public class MainFragment extends Fragment {
 
                 value_list1 = get_check_info("tradition");
                 value_list2 = get_check_info("super");
-/*
-                trad_textView.setText(null);
-                super_textView.setText(null);
-*/
+
                 result.clear();
                 search(category, id, "tradition", "current", value_list1);
                 search(category, id, "super", "current", value_list2);
                 TextView search_title = (TextView) getView().findViewById(R.id.result_title);
                 search_title.setText("\"" +id+ "\"에 대한 검색 결과");
 
-
-
-                //print_Screen(trad_textView);
             }
         });
         Button sortButton_D = (Button) v.findViewById(R.id.sortButton_D);
@@ -138,7 +115,6 @@ public class MainFragment extends Fragment {
                     }
                 });
                 getFunc();
-
             }
         });
         Button sortButton_P = (Button) v.findViewById(R.id.sortButton_P);
@@ -169,12 +145,8 @@ public class MainFragment extends Fragment {
         });
 
 
-
         // 분류를 이용한 검색
         spinner_division1 = (Spinner) v.findViewById(R.id.spinner_division1);
-        //trad_textView = v.findViewById(R.id.trad_text_view);
-        //super_textView = v.findViewById(R.id.super_text_view);
-        textViewResult = v.findViewById(R.id.text_view_result);
         tableResult = v.findViewById(R.id.table_result);
         tableResult.setStretchAllColumns(true);
 
@@ -276,8 +248,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
                 if (!response.isSuccessful()) {
-                    trad_textView.setText("Code: " + response.code());
-                    super_textView.setText("Code: " + response.code());
                     return;
                 }
                 List<Get> gets = response.body();
@@ -288,8 +258,7 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Get>> call, Throwable t) {
-                trad_textView.setText((t.getMessage()));
-                super_textView.setText((t.getMessage()));
+                return;
             }
         });
     }
@@ -301,8 +270,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Get>> call, Response<List<Get>> response) {
                 if (!response.isSuccessful()) {
-                    trad_textView.setText("Code: " + response.code());
-                    super_textView.setText("Code: " + response.code());
                     return;
                 }
                 List<Get> gets = response.body();
@@ -313,8 +280,7 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Get>> call, Throwable t) {
-                trad_textView.setText((t.getMessage()));
-                super_textView.setText((t.getMessage()));
+                return;
             }
         });
     }
@@ -363,6 +329,7 @@ public class MainFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tv.setText("판매처");
         tv.setGravity(Gravity.CENTER);
+        tv.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
 
         TextView tv2 = new TextView(v.getContext());
         tv2.setLayoutParams(new
@@ -370,6 +337,7 @@ public class MainFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tv2.setText("단위");
         tv2.setGravity(Gravity.CENTER);
+        tv2.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
 
         TextView tv3 = new TextView(v.getContext());
         tv3.setLayoutParams(new
@@ -377,6 +345,7 @@ public class MainFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tv3.setText("가격");
         tv3.setGravity(Gravity.CENTER);
+        tv3.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
 
         TextView tv4 = new TextView(v.getContext());
         tv4.setLayoutParams(new
@@ -384,6 +353,7 @@ public class MainFragment extends Fragment {
                 TableRow.LayoutParams.WRAP_CONTENT));
         tv4.setText("거리");
         tv4.setGravity(Gravity.CENTER);
+        tv4.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
 
         TableRow tr = new TableRow(v.getContext());
         tr.setId(0);
@@ -403,23 +373,39 @@ public class MainFragment extends Fragment {
                     TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tv.setText(temp.market_name);
+            tv.setGravity(Gravity.CENTER);
+            tv.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
+            if(temp.tag.compareTo("tradition") == 0)
+                tv.setBackgroundColor(Color.parseColor("#B9F6BB"));
+            else
+                tv.setBackgroundColor(Color.parseColor("#B9DEFB"));
+
             tv2 = new TextView(v.getContext());
             tv2.setLayoutParams(new
                     TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tv2.setText(temp.getUnit());
+            tv2.setGravity(Gravity.CENTER);
+            tv2.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
+
 
             tv3 = new TextView(v.getContext());
             tv3.setLayoutParams(new
                     TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tv3.setText(return_p(temp.getP()));
+            tv3.setGravity(Gravity.CENTER);
+            tv3.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
+
 
             tv4 = new TextView(v.getContext());
             tv4.setLayoutParams(new
                     TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
             tv4.setText(String.format("%.1fkm",temp.getDistance()/1000));
+            tv4.setGravity(Gravity.CENTER);
+            tv4.setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.border_all));
+
 
             // add table row
             tr = new TableRow(v.getContext());
@@ -450,29 +436,11 @@ public class MainFragment extends Fragment {
         else return Integer.toString(p);
     }
 
-    /*public void onM_map_btn_clicked(View view) {
-        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-        startActivity(intent);
-    }*/
-
     public synchronized void search(String category, String id, String tag, String week, String [] value_list) { // //순서 바뀌는 거 방지 - synchronized
         value_list = get_check_info(tag);
         for (int i = 0; i < value_list.length; i++)
             getDatas(category, id, tag, week, value_list[i]);
     }
-
-    /*public void print_Screen(TextView textView) {
-        System.out.println(result.size());
-        for(int i=0; i<result.size(); i++) {
-            String content = "";
-            content += "tag : " + result.get(i).tag + "\n";
-            content += "가게 이름 : " + result.get(i).market_name + "\n";
-            content += "단위: " + result.get(i).getUnit() + "\n";
-            content += "가격: " + result.get(i).getP() + "\n\n";
-            textView.append(content);
-        }
-        //result.clear();
-    }*/
 
     public String[] get_check_info(String tag) {
         SharedPreferences sp = this.getActivity().getSharedPreferences(tag, MODE_PRIVATE);

@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
+        android:background="#9DCD65"
+        android:gravity="center"
+        android:text="본 저작물은 대구광역시 민생경제과의 허락을 받아 만들어졌습니다."
+        android:textColor="@android:color/black"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
         android:background="#FDFDFD"
         android:gravity="center_vertical"
         android:text="  설정"
