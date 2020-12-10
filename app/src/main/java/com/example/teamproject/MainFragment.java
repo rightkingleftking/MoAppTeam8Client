@@ -43,17 +43,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.content.Context.MODE_PRIVATE;
 
 public class MainFragment extends Fragment {
-    private String mParam2;
-
-    private TextView trad_textView, super_textView;
     private JsonParserRetrofit jsonParserRetrofit;
     private HashMap<String, String> trad_map = new HashMap<String, String>();
     private HashMap<String, String> super_map = new HashMap<String, String>();
     private TableLayout tableResult;
     private TextView textViewResult;
     View v;
-
-    int result_cnt = 0;
 
     ArrayList<String> arr_division1 = new ArrayList<String>();
     ArrayList<String> arr_division2 = new ArrayList<String>();
